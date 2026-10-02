@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sovereign AI — Visual Preview (Before vs After)</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0f1a;
+      color: #e2e8f0;
+      min-height: 100vh;
+    }
+
+    /* ===== PAGE HEADER ===== */
+    .page-header {
+      text-align: center;
+      padding: 2rem 1.5rem 1rem;
+      border-bottom: 1px solid #1e293b;
+    }
+    .page-header h1 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #34d399, #10b981, #059669);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .page-header p { color: #94a3b8; font-size: 0.85rem; margin-top: 0.5rem; max-width: 640px; margin-inline: auto; line-height: 1.5; }
+    .badge-row { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
+    .badge {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.35rem 0.75rem; border-radius: 999px; border: 1px solid;
+    }
+    .badge-safe { color: #34d399; border-color: #065f46; background: #064e3b33; }
+    .badge-no { color: #f87171; border-color: #7f1d1d; background: #7f1d1d33; }
+
+    /* ===== COMPARISON GRID ===== */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      min-height: calc(100vh - 140px);
+    }
+    @media (max-width: 900px) {
+      .compare-grid { grid-template-columns: 1fr; }
+    }
+
+    .panel-label {
+      position: sticky; top: 0; z-index: 10;
+      text-align: center; padding: 0.75rem;
+      font-size: 0.7rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .panel-label.before { background: #1e293b; color: #94a3b8; }
+    .panel-label.after { background: linear-gradient(90deg, #064e3b, #065f46); color: #6ee7b7; }
+
+    .panel { overflow: hidden; position: relative; }
+
+    /* ===== BEFORE — matches your current App.jsx ===== */
+    .before-bg {
+      min-height: 700px;
+      background: linear-gradient(to bottom right, #eafaf1, #f0fbf5, #d8f3e5);
+      padding: 2rem 1.5rem;
+      color: #1e293b;
+    }
+    .before-card {
+      max-width: 420px; margin: 0 auto;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-radius: 1.5rem;
+      padding: 2.5rem;
+      border: 1px solid rgba(167,243,208,0.6);
+      box-shadow: 0 20px 40px rgba(6,78,59,0.05);
+    }
+    .before-tag { font-size: 0.65rem; font-weight: 700; color: #065f46; letter-spacing: 0.1em; }
+    .before-title { font-size: 1.75rem; font-weight: 800; color: #0f172a; margin-top: 0.25rem; }
+    .before-sub { font-size: 0.8rem; color: #64748b; margin-top: 0.25rem; }
+    .before-brand { font-size: 1.5rem; font-weight: 900; color: #065f46; margin: 1.5rem 0 1rem; }
+    .before-input {
+      width: 100%; padding: 0.875rem 1rem; border-radius: 1rem;
+      border: 1px solid #e2e8f0; background: #f8fafc; font-size: 0.85rem; margin-bottom: 0.75rem;
+    }
+    .before-btn {
+      width: 100%; padding: 1rem; border: none; border-radius: 1rem;
+      background: linear-gradient(to right, #047857, #059669);
+      color: white; font-weight: 600; font-size: 0.85rem; cursor: pointer;
+      box-shadow: 0 8px 20px rgba(6,95,70,0.2);
+    }
+    .before-note {
+      margin-top: 2rem; padding: 1rem; background: #f1f5f9; border-radius: 0.75rem;
+      font-size: 0.75rem; color: #64748b; line-height: 1.6;
+    }
+
+    /* ===== AFTER — proposed pro-max visuals ===== */
+    .after-bg {
+      min-height: 700px;
+      position: relative;
+      background: #030712;
+      padding: 2rem 1.5rem;
+      overflow: hidden;
+    }
+
+    /* Animated aurora orbs */
+    .aurora {
+      position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+    }
+    .orb {
+      position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5;
+      animation: float 12s ease-in-out infinite;
+    }
+    .orb-1 {
+      width: 400px; height: 400px; top: -10%; left: -5%;
+      background: radial-gradient(circle, #059669 0%, transparent 70%);
+      animation-delay: 0s;
+    }
+    .orb-2 {
+      width: 350px; height: 350px; bottom: -5%; right: -10%;
+      background: radial-gradient(circle, #0d9488 0%, transparent 70%);
+      animation-delay: -4s;
+    }
+    .orb-3 {
+      width: 250px; height: 250px; top: 40%; left: 50%;
+      background: radial-gradient(circle, #34d399 0%, transparent 70%);
+      animation-delay: -8s; opacity: 0.25;
+    }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -20px) scale(1.05); }
+      66% { transform: translate(-20px, 15px) scale(0.95); }
+    }
+
+    /* Subtle grain overlay */
+    .grain {
+      position: absolute; inset: 0; pointer-events: none; opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .after-content { position: relative; z-index: 1; max-width: 420px; margin: 0 auto; }
+
+    .after-header { margin-bottom: 1.5rem; animation: fadeUp 0.6s ease-out; }
+    .after-tag {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em;
+      color: #6ee7b7; text-transform: uppercase;
+    }
+    .after-title {
+      font-size: 1.75rem; font-weight: 800; color: #f8fafc; margin-top: 0.25rem;
+      background: linear-gradient(135deg, #ffffff 0%, #a7f3d0 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .after-sub { font-size: 0.8rem; color: #94a3b8; margin-top: 0.35rem; }
+
+    .after-card {
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(24px) saturate(1.4);
+      border-radius: 1.5rem;
+      padding: 2.5rem;
+      border: 1px solid rgba(52, 211, 153, 0.2);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.04) inset,
+        0 25px 50px -12px rgba(0,0,0,0.5),
+        0 0 60px rgba(16, 185, 129, 0.08);
+      animation: fadeUp 0.6s ease-out 0.1s both;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Animated gradient border shimmer */
+    .after-card::before {
+      content: '';
+      position: absolute; inset: -1px; border-radius: 1.5rem; padding: 1px;
+      background: linear-gradient(135deg, transparent 30%, rgba(52,211,153,0.5) 50%, transparent 70%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      animation: shimmer 4s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .after-brand {
+      font-size: 1.5rem; font-weight: 900; letter-spacing: 0.08em;
+      background: linear-gradient(135deg, #34d399, #10b981, #059669);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 1.25rem;
+    }
+
+    .after-label { font-size: 0.7rem; font-weight: 600; color: #6ee7b7; margin-bottom: 0.4rem; }
+
+    .after-input {
+      width: 100%; padding: 0.875rem 1rem; border-radius: 1rem;
+      border: 1px solid rgba(52,211,153,0.15);
+      background: rgba(15,23,42,0.6);
+      color: #e2e8f0; font-size: 0.85rem; margin-bottom: 0.75rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .after-input:focus {
+      outline: none;
+      border-color: rgba(52,211,153,0.5);
+      box-shadow: 0 0 0 3px rgba(16,185,129,0.15), 0 0 20px rgba(16,185,129,0.1);
+    }
+
+    .role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.75rem; }
+    .role-btn {
+      padding: 0.5rem; border-radius: 0.75rem; font-size: 0.65rem; font-weight: 700;
+      border: 1px solid rgba(52,211,153,0.15); background: rgba(15,23,42,0.4);
+      color: #94a3b8; cursor: pointer; transition: all 0.25s;
+    }
+    .role-btn.active {
+      background: linear-gradient(135deg, #059669, #047857);
+      color: white; border-color: transparent;
+      box-shadow: 0 4px 15px rgba(16,185,129,0.35);
+    }
+    .role-btn:hover:not(.active) { border-color: rgba(52,211,153,0.3); color: #cbd5e1; }
+
+    .after-btn {
+      width: 100%; padding: 1rem; border: none; border-radius: 1rem;
+      background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+      background-size: 200% 200%;
+      color: white; font-weight: 600; font-size: 0.85rem; cursor: pointer;
+      box-shadow: 0 8px 30px rgba(16,185,129,0.35);
+      transition: transform 0.2s, box-shadow 0.3s, background-position 0.4s;
+      animation: btnGlow 3s ease-in-out infinite;
+      margin-top: 0.5rem;
+    }
+    .after-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(16,185,129,0.45);
+      background-position: 100% 100%;
+    }
+    .after-btn:active { transform: scale(0.98); }
+
+    @keyframes btnGlow {
+      0%, 100% { box-shadow: 0 8px 30px rgba(16,185,129,0.35); }
+      50% { box-shadow: 0 8px 40px rgba(16,185,129,0.55); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .after-note {
+      margin-top: 2rem; padding: 1rem;
+      background: rgba(16,185,129,0.08);
+      border: 1px solid rgba(52,211,153,0.15);
+      border-radius: 0.75rem;
+      font-size: 0.75rem; color: #6ee7b7; line-height: 1.6;
+      animation: fadeUp 0.6s ease-out 0.3s both;
+    }
+
+    /* ===== COMMAND CENTER MINI PREVIEW ===== */
+    .section-divider {
+      grid-column: 1 / -1;
+      text-align: center; padding: 2rem 1rem 1rem;
+      background: #0a0f1a; border-top: 1px solid #1e293b;
+    }
+    .section-divider h2 { font-size: 1.1rem; color: #e2e8f0; font-weight: 700; }
+    .section-divider p { font-size: 0.8rem; color: #64748b; margin-top: 0.35rem; }
+
+    .cc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+    @media (max-width: 900px) { .cc-grid { grid-template-columns: 1fr; } }
+
+    .cc-before, .cc-after { padding: 1.5rem; min-height: 480px; }
+    .cc-before { background: linear-gradient(to bottom right, #eafaf1, #f0fbf5, #d8f3e5); }
+    .cc-after { background: #030712; position: relative; overflow: hidden; }
+
+    .cc-card {
+      background: rgba(255,255,255,0.95); border-radius: 1.25rem; padding: 1.25rem;
+      border: 1px solid rgba(167,243,208,0.6);
+      box-shadow: 0 8px 24px rgba(6,78,59,0.06);
+    }
+    .cc-after .cc-card {
+      background: rgba(15,23,42,0.55); backdrop-filter: blur(20px);
+      border: 1px solid rgba(52,211,153,0.15);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 40px rgba(16,185,129,0.06);
+      position: relative; z-index: 1;
+    }
+
+    .quick-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; margin-top: 1rem; }
+    .quick-before {
+      padding: 0.75rem; border-radius: 1rem; font-size: 0.6rem; font-weight: 700; color: white;
+      background: linear-gradient(to bottom right, #059669, #10b981);
+      height: 4.5rem; display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .quick-after {
+      padding: 0.75rem; border-radius: 1rem; font-size: 0.6rem; font-weight: 700; color: white;
+      background: linear-gradient(135deg, #059669, #0d9488);
+      height: 4.5rem; display: flex; flex-direction: column; justify-content: space-between;
+      border: 1px solid rgba(52,211,153,0.2);
+      transition: transform 0.25s, box-shadow 0.25s;
+      cursor: pointer;
+    }
+    .quick-after:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 24px rgba(16,185,129,0.25);
+    }
+
+    .status-pill {
+      font-size: 0.6rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 999px;
+    }
+    .status-before { border: 1px solid #6ee7b7; color: #065f46; background: rgba(209,250,229,0.6); }
+    .status-after {
+      border: 1px solid rgba(52,211,153,0.4); color: #6ee7b7;
+      background: rgba(16,185,129,0.12);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.3); }
+      50% { box-shadow: 0 0 0 6px rgba(16,185,129,0); }
+    }
+
+    /* ===== CHANGE LIST ===== */
+    .changes-section {
+      grid-column: 1 / -1;
+      padding: 2rem 1.5rem 3rem;
+      background: #0f172a;
+      border-top: 1px solid #1e293b;
+    }
+    .changes-section h2 {
+      text-align: center; font-size: 1.1rem; margin-bottom: 1.5rem; color: #f1f5f9;
+    }
+    .changes-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem; max-width: 1100px; margin: 0 auto;
+    }
+    .change-card {
+      background: #1e293b; border-radius: 1rem; padding: 1.25rem;
+      border: 1px solid #334155;
+    }
+    .change-card h3 { font-size: 0.8rem; color: #34d399; font-weight: 700; margin-bottom: 0.5rem; }
+    .change-card ul { font-size: 0.75rem; color: #94a3b8; line-height: 1.7; padding-left: 1rem; }
+    .change-card.safe { border-color: #065f46; }
+    .change-card.no-touch { border-color: #7f1d1d; }
+    .change-card.no-touch h3 { color: #f87171; }
+  </style>
+</head>
+<body>
+
+  <header class="page-header">
+    <h1>Sovereign AI — Visual Upgrade Preview</h1>
+    <p>Open this file in your browser. Nothing in your project has been changed yet. Review the before/after, then tell me which direction you prefer.</p>
+    <div class="badge-row">
+      <span class="badge badge-safe">✓ CSS &amp; classes only</span>
+      <span class="badge badge-safe">✓ Same layout &amp; features</span>
+      <span class="badge badge-no">✗ No API / backend changes</span>
+      <span class="badge badge-no">✗ No logic changes</span>
+    </div>
+  </header>
+
+  <!-- LOGIN SCREEN COMPARISON -->
+  <div class="compare-grid">
+    <div class="panel">
+      <div class="panel-label before">Current — Login Screen</div>
+      <div class="before-bg">
+        <div style="margin-bottom:1.5rem">
+          <div class="before-tag">ACCESS</div>
+          <div class="before-title">Secure workspace</div>
+          <div class="before-sub">Enter the organization workspace</div>
+        </div>
+        <div class="before-card">
+          <div class="before-brand">SOVEREIGN</div>
+          <div style="font-size:0.7rem;font-weight:600;color:#065f46;margin-bottom:0.4rem">Organization</div>
+          <input class="before-input" value="Engineering Workspace" readonly />
+          <div style="font-size:0.7rem;font-weight:600;color:#065f46;margin-bottom:0.4rem;margin-top:0.5rem">Authentication</div>
+          <input class="before-input" value="Authorized user (ENGINEER)" readonly style="font-family:monospace;font-size:0.75rem" />
+          <button class="before-btn" style="margin-top:0.5rem">Enter secure workspace</button>
+        </div>
+        <div class="before-note">
+          <strong>Your current look:</strong> Light mint-green gradient background, white glass cards, flat emerald buttons. Clean but static — no ambient motion or depth layers.
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-label after">Proposed — Login Screen</div>
+      <div class="after-bg">
+        <div class="aurora">
+          <div class="orb orb-1"></div>
+          <div class="orb orb-2"></div>
+          <div class="orb orb-3"></div>
+        </div>
+        <div class="grain"></div>
+        <div class="after-content">
+          <div class="after-header">
+            <div class="after-tag">ACCESS</div>
+            <div class="after-title">Secure workspace</div>
+            <div class="after-sub">Enter the organization workspace</div>
+          </div>
+          <div class="after-card">
+            <div class="after-brand">SOVEREIGN</div>
+            <div class="after-label">Organization</div>
+            <input class="after-input" value="Engineering Workspace" readonly />
+            <div class="after-label" style="margin-top:0.5rem">Authentication</div>
+            <div class="role-grid">
+              <button class="role-btn active">ENGINEER</button>
+              <button class="role-btn">REVIEWER</button>
+              <button class="role-btn">AUDITOR</button>
+              <button class="role-btn">ADMIN</button>
+            </div>
+            <input class="after-input" value="Authorized user (ENGINEER)" readonly style="font-family:monospace;font-size:0.75rem" />
+            <button class="after-btn">Enter secure workspace →</button>
+          </div>
+          <div class="after-note">
+            <strong>Proposed upgrade:</strong> Dark aurora background with floating gradient orbs, glass-morphism card with shimmer border, gradient text, glowing focus states, pulsing CTA button, page-enter fade animation.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMMAND CENTER COMPARISON -->
+  <div class="section-divider">
+    <h2>Command Center — Quick Tasks &amp; Active Work</h2>
+    <p>Same content, richer depth and hover interactions</p>
+  </div>
+
+  <div class="cc-grid">
+    <div class="cc-before">
+      <div class="panel-label before" style="position:static;margin-bottom:1rem;border-radius:0.5rem">Current</div>
+      <div style="font-size:0.65rem;font-weight:700;color:#065f46;letter-spacing:0.1em">WORKSPACE</div>
+      <div style="font-size:1.25rem;font-weight:800;color:#0f172a;margin:0.25rem 0">What do you need to get done?</div>
+      <div class="cc-card" style="margin-top:1rem">
+        <div style="font-size:0.75rem;color:#334155;line-height:1.5">Review the scanned inspection report for Unit-4...</div>
+      </div>
+      <div style="font-size:0.65rem;font-weight:700;color:#065f46;margin-top:1rem;letter-spacing:0.1em">QUICK TASKS</div>
+      <div class="quick-grid">
+        <div class="quick-before">📄<br>Analyze Doc</div>
+        <div class="quick-before">🔍<br>Search</div>
+        <div class="quick-before">✏️<br>Write</div>
+        <div class="quick-before">🔢<br>Calculate</div>
+        <div class="quick-before">🛡<br>Code</div>
+      </div>
+      <div style="margin-top:1rem;display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.95);padding:1rem 1.25rem;border-radius:1rem;border:1px solid rgba(167,243,208,0.6)">
+        <span style="font-size:0.75rem;font-weight:700;color:#1e293b">Inspection Report → Approval Note</span>
+        <span class="status-pill status-before">PROCESSING</span>
+      </div>
+    </div>
+
+    <div class="cc-after">
+      <div class="aurora"><div class="orb orb-1" style="width:300px;height:300px"></div><div class="orb orb-2" style="width:250px;height:250px"></div></div>
+      <div class="grain"></div>
+      <div class="panel-label after" style="position:static;margin-bottom:1rem;border-radius:0.5rem;position:relative;z-index:1">Proposed</div>
+      <div style="font-size:0.65rem;font-weight:700;color:#6ee7b7;letter-spacing:0.1em;position:relative;z-index:1">WORKSPACE</div>
+      <div style="font-size:1.25rem;font-weight:800;background:linear-gradient(135deg,#fff,#a7f3d0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0.25rem 0;position:relative;z-index:1">What do you need to get done?</div>
+      <div class="cc-card" style="margin-top:1rem">
+        <div style="font-size:0.75rem;color:#cbd5e1;line-height:1.5">Review the scanned inspection report for Unit-4...</div>
+      </div>
+      <div style="font-size:0.65rem;font-weight:700;color:#6ee7b7;margin-top:1rem;letter-spacing:0.1em;position:relative;z-index:1">QUICK TASKS</div>
+      <div class="quick-grid" style="position:relative;z-index:1">
+        <div class="quick-after">📄<br>Analyze Doc</div>
+        <div class="quick-after">🔍<br>Search</div>
+        <div class="quick-after">✏️<br>Write</div>
+        <div class="quick-after">🔢<br>Calculate</div>
+        <div class="quick-after">🛡<br>Code</div>
+      </div>
+      <div style="margin-top:1rem;display:flex;justify-content:space-between;align-items:center;background:rgba(15,23,42,0.55);backdrop-filter:blur(20px);padding:1rem 1.25rem;border-radius:1rem;border:1px solid rgba(52,211,153,0.15);position:relative;z-index:1;transition:border-color 0.3s" onmouseover="this.style.borderColor='rgba(52,211,153,0.4)'" onmouseout="this.style.borderColor='rgba(52,211,153,0.15)'">
+        <span style="font-size:0.75rem;font-weight:700;color:#e2e8f0">Inspection Report → Approval Note</span>
+        <span class="status-pill status-after">PROCESSING</span>
+      </div>
+      <p style="font-size:0.7rem;color:#64748b;margin-top:1rem;position:relative;z-index:1">↑ Hover the quick task tiles to see lift + glow</p>
+    </div>
+  </div>
+
+  <!-- EXACT CHANGE LIST -->
+  <section class="changes-section">
+    <h2>Exactly What Will Change (and What Won't)</h2>
+    <div class="changes-grid">
+      <div class="change-card safe">
+        <h3>✓ Files we WILL edit (visual only)</h3>
+        <ul>
+          <li><strong>frontend/src/index.css</strong> — aurora keyframes, grain overlay, CSS variables, scrollbar glow</li>
+          <li><strong>frontend/src/App.jsx</strong> — only <code>className</code> strings on existing elements (no logic/API changes)</li>
+        </ul>
+      </div>
+      <div class="change-card safe">
+        <h3>✓ Visual upgrades applied</h3>
+        <ul>
+          <li>Background: light mint → dark aurora with animated gradient orbs</li>
+          <li>Cards: flat white → glass-morphism with blur + inner glow</li>
+          <li>Buttons: static gradient → animated shimmer + hover lift + glow pulse</li>
+          <li>Text: solid color → gradient headings on key titles</li>
+          <li>Status pills: static → subtle pulse animation on "PROCESSING"</li>
+          <li>Screen transitions: basic fade → staggered fade-up on enter</li>
+          <li>Quick task tiles: flat → hover lift + shadow bloom</li>
+          <li>Inputs: plain focus ring → emerald glow on focus</li>
+        </ul>
+      </div>
+      <div class="change-card no-touch">
+        <h3>✗ Files we will NOT touch</h3>
+        <ul>
+          <li><strong>frontend/src/api.js</strong> — all backend calls stay identical</li>
+          <li>All <code>useState</code>, <code>useEffect</code>, handlers, API functions</li>
+          <li>Screen routing logic (22 screens)</li>
+          <li>Form field names, IDs, refs, file upload logic</li>
+          <li>Backend Python files, env config, data folders</li>
+        </ul>
+      </div>
+      <div class="change-card safe">
+        <h3>✓ Your emerald brand stays</h3>
+        <ul>
+          <li>Same green palette (#059669, #047857, emerald tones)</li>
+          <li>Same layout positions — sidebar widths, input bars unchanged</li>
+          <li>Same 22 screens and navigation flow</li>
+          <li>Same Lucide icons and component structure</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

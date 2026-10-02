@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sovereign AI — Light Premium Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --mint-50: #f0fdf9;
+      --mint-100: #eafaf1;
+      --mint-200: #d8f3e5;
+      --mint-300: #a7f3d0;
+      --mint-400: #6ee7b7;
+      --emerald-600: #059669;
+      --emerald-700: #047857;
+      --emerald-800: #065f46;
+      --slate-400: #94a3b8;
+      --slate-500: #64748b;
+      --slate-600: #475569;
+      --slate-800: #1e293b;
+      --slate-900: #0f172a;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'Instrument Serif', Georgia, serif;
+    }
+
+    body {
+      font-family: var(--font);
+      background: #eef7f1;
+      color: var(--slate-800);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ===== TOP BANNER ===== */
+    .banner {
+      text-align: center;
+      padding: 1.25rem 1.5rem;
+      background: white;
+      border-bottom: 1px solid rgba(167,243,208,0.5);
+    }
+    .banner h1 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--emerald-800);
+    }
+    .banner p { font-size: 0.75rem; color: var(--slate-500); margin-top: 0.35rem; }
+
+    /* ===== PREMIUM LIGHT BACKGROUND ===== */
+    .scene {
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 0%, rgba(167,243,208,0.45) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 50% at 90% 10%, rgba(110,231,183,0.25) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 50% 100%, rgba(216,243,229,0.6) 0%, transparent 55%),
+        linear-gradient(165deg, #f4fbf7 0%, var(--mint-100) 35%, var(--mint-200) 100%);
+    }
+
+    /* Soft floating blobs — very subtle, light only */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      pointer-events: none;
+      animation: drift 18s ease-in-out infinite;
+    }
+    .blob-1 {
+      width: 420px; height: 420px; top: -8%; right: 5%;
+      background: rgba(167,243,208,0.35);
+    }
+    .blob-2 {
+      width: 320px; height: 320px; bottom: 10%; left: -5%;
+      background: rgba(110,231,183,0.2);
+      animation-delay: -6s;
+    }
+    .blob-3 {
+      width: 200px; height: 200px; top: 45%; left: 40%;
+      background: rgba(255,255,255,0.5);
+      animation-delay: -12s;
+    }
+    @keyframes drift {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(12px, -8px); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4rem;
+    }
+
+    /* ===== TYPOGRAPHY SYSTEM ===== */
+    .eyebrow {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--emerald-800);
+      animation: fadeUp 0.5s ease-out both;
+    }
+    .headline {
+      font-size: clamp(1.75rem, 4vw, 2.125rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: var(--slate-900);
+      margin-top: 0.5rem;
+      animation: fadeUp 0.5s ease-out 0.05s both;
+    }
+    .subhead {
+      font-size: 0.9375rem;
+      font-weight: 400;
+      line-height: 1.55;
+      color: var(--slate-500);
+      margin-top: 0.5rem;
+      max-width: 36rem;
+      animation: fadeUp 0.5s ease-out 0.1s both;
+    }
+    .section-label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--emerald-800);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== HEADER ROW ===== */
+    .header-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+      margin-bottom: 2.25rem;
+      flex-wrap: wrap;
+    }
+    .header-actions {
+      display: flex;
+      gap: 0.625rem;
+      flex-wrap: wrap;
+      animation: fadeUp 0.5s ease-out 0.15s both;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn-ghost {
+      font-family: var(--font);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      padding: 0.625rem 1rem;
+      border-radius: 0.875rem;
+      border: 1px solid rgba(167,243,208,0.8);
+      background: rgba(255,255,255,0.85);
+      color: var(--emerald-800);
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 1px 2px rgba(6,95,70,0.04);
+    }
+    .btn-ghost:hover {
+      background: white;
+      border-color: var(--mint-300);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(6,95,70,0.08);
+    }
+
+    .btn-primary {
+      font-family: var(--font);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      padding: 0.625rem 1.125rem;
+      border-radius: 0.875rem;
+      border: none;
+      background: linear-gradient(135deg, var(--emerald-700) 0%, var(--emerald-600) 100%);
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(5,150,105,0.28), 0 1px 0 rgba(255,255,255,0.15) inset;
+      transition: transform 0.15s, box-shadow 0.25s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 22px rgba(5,150,105,0.32), 0 1px 0 rgba(255,255,255,0.15) inset;
+    }
+    .btn-primary:active { transform: scale(0.98); }
+
+    /* ===== PREMIUM CARD ===== */
+    .card {
+      background: rgba(255,255,255,0.78);
+      backdrop-filter: blur(20px) saturate(1.2);
+      -webkit-backdrop-filter: blur(20px) saturate(1.2);
+      border-radius: 1.375rem;
+      border: 1px solid rgba(255,255,255,0.9);
+      box-shadow:
+        0 0 0 1px rgba(167,243,208,0.35),
+        0 2px 4px rgba(6,95,70,0.03),
+        0 12px 40px rgba(6,95,70,0.07);
+      padding: 1.5rem;
+      animation: fadeUp 0.55s ease-out 0.2s both;
+      transition: box-shadow 0.3s, border-color 0.3s;
+    }
+    .card:hover {
+      box-shadow:
+        0 0 0 1px rgba(110,231,183,0.5),
+        0 4px 8px rgba(6,95,70,0.04),
+        0 20px 48px rgba(6,95,70,0.09);
+    }
+
+    .card textarea {
+      width: 100%;
+      border: none;
+      background: transparent;
+      font-family: var(--font);
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1.65;
+      color: var(--slate-800);
+      resize: none;
+      outline: none;
+    }
+
+    .card-meta {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(226,232,240,0.8);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 0.75rem;
+      align-items: center;
+    }
+    .meta-link {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--emerald-800);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: color 0.15s;
+    }
+    .meta-link:hover { color: var(--emerald-600); text-decoration: underline; text-underline-offset: 2px; }
+    .meta-dot { color: #cbd5e1; font-size: 0.6rem; }
+    .meta-muted { font-size: 0.75rem; font-weight: 400; color: var(--slate-400); }
+
+    .card-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 0.875rem;
+      animation: fadeUp 0.5s ease-out 0.28s both;
+    }
+
+    .btn-cta {
+      font-family: var(--font);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      padding: 0.75rem 1.375rem;
+      border-radius: 0.875rem;
+      border: none;
+      background: linear-gradient(135deg, var(--emerald-700) 0%, #10b981 100%);
+      color: white;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 6px 20px rgba(5,150,105,0.25);
+      transition: transform 0.15s, box-shadow 0.25s;
+    }
+    .btn-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(5,150,105,0.3);
+    }
+
+    /* ===== QUICK TASKS ===== */
+    .section { margin-top: 2.25rem; animation: fadeUp 0.5s ease-out 0.32s both; }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.75rem;
+    }
+    @media (max-width: 700px) {
+      .quick-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .quick-tile {
+      font-family: var(--font);
+      padding: 1rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(255,255,255,0.6);
+      background: linear-gradient(145deg, #059669 0%, #10b981 55%, #34d399 100%);
+      color: white;
+      text-align: left;
+      cursor: pointer;
+      height: 6.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 4px 16px rgba(5,150,105,0.2);
+      transition: transform 0.22s cubic-bezier(0.34,1.2,0.64,1), box-shadow 0.22s;
+    }
+    .quick-tile:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 28px rgba(5,150,105,0.28);
+    }
+    .quick-tile:active { transform: translateY(-1px) scale(0.99); }
+    .quick-tile .icon { font-size: 1rem; opacity: 0.85; }
+    .quick-tile .label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.35;
+    }
+
+    /* ===== ACTIVE WORK ROW ===== */
+    .work-row {
+      margin-top: 2.25rem;
+      animation: fadeUp 0.5s ease-out 0.38s both;
+    }
+
+    .work-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 1.375rem;
+      border-radius: 1rem;
+      background: rgba(255,255,255,0.78);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(167,243,208,0.45);
+      box-shadow: 0 4px 20px rgba(6,95,70,0.05);
+      cursor: pointer;
+      transition: border-color 0.25s, transform 0.2s, box-shadow 0.25s;
+    }
+    .work-item:hover {
+      border-color: var(--mint-300);
+      transform: translateX(3px);
+      box-shadow: 0 8px 28px rgba(6,95,70,0.08);
+    }
+    .work-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--slate-800);
+    }
+
+    .pill {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 0.375rem 0.875rem;
+      border-radius: 999px;
+      border: 1px solid rgba(110,231,183,0.6);
+      background: rgba(236,253,245,0.8);
+      color: var(--emerald-800);
+      white-space: nowrap;
+      position: relative;
+    }
+    .pill::after {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 999px;
+      border: 1px solid rgba(16,185,129,0.25);
+      animation: pillPulse 2.5s ease-in-out infinite;
+    }
+    @keyframes pillPulse {
+      0%, 100% { opacity: 0; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.04); }
+    }
+
+    /* ===== LOGIN PREVIEW PANEL ===== */
+    .dual-preview {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 3rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid rgba(167,243,208,0.4);
+    }
+    @media (max-width: 768px) { .dual-preview { grid-template-columns: 1fr; } }
+
+    .login-card {
+      max-width: 100%;
+      padding: 2.25rem;
+    }
+    .brand {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: 0.02em;
+      color: var(--emerald-800);
+      margin-bottom: 1.5rem;
+    }
+    .field-label {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--emerald-800);
+      margin-bottom: 0.5rem;
+    }
+    .field-input {
+      width: 100%;
+      padding: 0.8125rem 1rem;
+      border-radius: 0.875rem;
+      border: 1px solid rgba(226,232,240,0.9);
+      background: rgba(248,250,252,0.9);
+      font-family: var(--font);
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--slate-800);
+      margin-bottom: 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .field-input:focus {
+      outline: none;
+      border-color: rgba(16,185,129,0.5);
+      box-shadow: 0 0 0 3px rgba(16,185,129,0.12);
+    }
+    .role-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 1rem; }
+    .role-chip {
+      font-family: var(--font);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      padding: 0.5rem;
+      border-radius: 0.625rem;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      color: var(--slate-500);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .role-chip.on {
+      background: var(--emerald-700);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 3px 10px rgba(5,150,105,0.25);
+    }
+
+    .legend {
+      margin-top: 2rem;
+      padding: 1.25rem 1.5rem;
+      background: rgba(255,255,255,0.65);
+      border-radius: 1rem;
+      border: 1px solid rgba(167,243,208,0.4);
+      font-size: 0.8125rem;
+      line-height: 1.7;
+      color: var(--slate-600);
+    }
+    .legend strong { color: var(--emerald-800); font-weight: 600; }
+    .legend ul { margin-top: 0.5rem; padding-left: 1.25rem; }
+    .legend li { margin-bottom: 0.25rem; }
+  </style>
+</head>
+<body>
+
+  <div class="banner">
+    <h1>Sovereign AI — Light Premium Preview (Final Direction)</h1>
+    <p>Light mint only · Premium Inter typography · Subtle active animations · No dark theme · No code changed yet</p>
+  </div>
+
+  <div class="scene">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <div class="container">
+
+      <!-- COMMAND CENTER (main screen) -->
+      <div class="header-row">
+        <div>
+          <div class="eyebrow">Workspace</div>
+          <h1 class="headline">What do you need to get done?</h1>
+          <p class="subhead">Private organizational work, from one controlled workspace.</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn-ghost">🛡 Security</button>
+          <button class="btn-ghost">⚙ Operations</button>
+          <button class="btn-primary">+ New Task</button>
+        </div>
+      </div>
+
+      <span class="section-label">Describe the work you need done</span>
+      <div class="card">
+        <textarea rows="3">Review the scanned inspection report for Unit-4 and prepare an approval note based on the latest maintenance SOP.</textarea>
+        <div class="card-meta">
+          <button class="meta-link">Attach files</button>
+          <span class="meta-dot">•</span>
+          <button class="meta-link">Add context</button>
+          <span class="meta-dot">•</span>
+          <button class="meta-link">Project: Refinery Unit 4</button>
+          <span class="meta-dot">•</span>
+          <span class="meta-muted">Classification: INTERNAL</span>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="btn-cta">Start Task →</button>
+      </div>
+
+      <div class="section">
+        <span class="section-label">Quick Tasks</span>
+        <div class="quick-grid">
+          <button class="quick-tile"><span class="icon">📄</span><span class="label">Analyze Document</span></button>
+          <button class="quick-tile"><span class="icon">🔍</span><span class="label">Search Knowledge</span></button>
+          <button class="quick-tile"><span class="icon">✏️</span><span class="label">Write / Draft</span></button>
+          <button class="quick-tile"><span class="icon">🔢</span><span class="label">Run Calculation</span></button>
+          <button class="quick-tile"><span class="icon">🛡</span><span class="label">Code & Verify</span></button>
+        </div>
+      </div>
+
+      <div class="work-row">
+        <span class="section-label">Active Work</span>
+        <div class="work-item">
+          <span class="work-title">Inspection Report → Approval Note</span>
+          <span class="pill">PROCESSING</span>
+        </div>
+      </div>
+
+      <!-- LOGIN SCREEN PREVIEW -->
+      <div class="dual-preview">
+        <div>
+          <span class="section-label">Login Screen Preview</span>
+          <div class="card login-card">
+            <div class="eyebrow" style="margin-bottom:0.75rem">Access</div>
+            <h2 class="headline" style="font-size:1.5rem;margin-top:0">Secure workspace</h2>
+            <p class="subhead" style="font-size:0.8125rem;margin-bottom:1.5rem">Enter the organization workspace</p>
+            <div class="brand">Sovereign</div>
+            <div class="field-label">Organization</div>
+            <input class="field-input" value="Engineering Workspace" readonly />
+            <div class="field-label">Authentication</div>
+            <div class="role-row">
+              <button class="role-chip on">ENGINEER</button>
+              <button class="role-chip">REVIEWER</button>
+              <button class="role-chip">AUDITOR</button>
+              <button class="role-chip">ADMIN</button>
+            </div>
+            <button class="btn-cta" style="width:100%;justify-content:center;margin-top:0.5rem">Enter secure workspace</button>
+          </div>
+        </div>
+
+        <div class="legend">
+          <strong>What will change in your real app:</strong>
+          <ul>
+            <li><strong>Typography:</strong> Inter font — consistent weights (400 body, 600 labels, 700–800 headings), tighter letter-spacing on titles</li>
+            <li><strong>Background:</strong> Richer layered mint gradients + soft floating light blobs (barely moving)</li>
+            <li><strong>Cards:</strong> Premium frosted glass — deeper shadow, crisp white border, hover glow</li>
+            <li><strong>Buttons:</strong> 1–2px hover lift only — no aggressive motion</li>
+            <li><strong>Quick tasks:</strong> Smooth tile lift on hover</li>
+            <li><strong>Status pill:</strong> Gentle pulse ring on PROCESSING</li>
+            <li><strong>Page enter:</strong> Staggered 10px fade-up (0.5s total)</li>
+            <li><strong>Layout:</strong> Same structure — spacing refined for alignment rhythm</li>
+          </ul>
+          <p style="margin-top:1rem;font-size:0.75rem;color:var(--slate-500)"><strong>Not changing:</strong> api.js, handlers, screen logic, backend, feature set</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
