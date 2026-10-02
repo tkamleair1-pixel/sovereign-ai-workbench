@@ -1,0 +1,93 @@
+﻿PUMP P-204  P204-IR-2026-0906
+Page 1
+ PUMP INSPECTION REPORT
+ Routine Condition Inspection  Utility Area Line U-02
+Report ID
+P204-IR-2026-0906
+Inspection Date
+06 September 2026
+Equipment
+Pump P-204
+Pump Type
+Process-water centrifugal pump
+Location
+Utility Area Line U-02
+Inspection Type
+Routine condition inspection
+Overall Condition
+Conditionally Acceptable
+Document Class
+GENERAL / Technical
+1. Executive Summary
+Pump P-204 was inspected during routine operation. The equipment was found to be conditionally acceptable for
+continued service. No immediate catastrophic condition was observed during this inspection. Vibration at the drive
+end and minor mechanical seal leakage should be monitored and addressed through planned maintenance.
+2. Operating and Condition Data
+Parameter
+Observed Value
+Assessment
+Rotational speed
+1480 rpm
+Normal for observed operating condition
+Discharge pressure
+4.2 bar
+Stable
+Suction pressure
+1.1 bar
+Stable
+Motor current
+18.6 A
+Within observed operating range
+Bearing temperature
+62 ┬░C
+Monitor trend
+Drive-end vibration
+4.8 mm/s RMS
+Elevated; monitor closely
+Non-drive-end vibration
+3.6 mm/s RMS
+Acceptable / monitor
+Mechanical seal leakage
+2ΓÇô3 drops/min
+Minor leakage; monitor
+Ambient temperature
+31 ┬░C
+Recorded at inspection
+3. Inspection Observations
+The pump casing and accessible external components showed no visible signs of severe damage. Operating
+pressure remained stable during the observation period. A minor seal leakage rate of approximately 2ΓÇô3 drops per
+minute was recorded. Drive-end vibration measured 4.8 mm/s RMS and should be trended against previous
+readings. Bearing temperature was 62 ┬░C and should also be monitored for increasing trends.
+4. Recommended Actions
+Priority
+Recommended Action
+Suggested Timing
+Medium
+Trend drive-end vibration and compare with historical readings.
+Next scheduled inspection
+Medium
+Inspect mechanical seal condition and leakage trend.
+Planned maintenance window
+
+PUMP P-204  P204-IR-2026-0906
+Page 2
+Priority
+Recommended Action
+Suggested Timing
+Low
+Continue monitoring bearing temperature under comparable load.
+Routine monitoring
+Low
+Record operating pressures and motor current for trend analysis.
+Each inspection
+5. Technical Assessment
+Based on the recorded operating values and visual observations, P-204 is assessed as CONDITIONALLY
+ACCEPTABLE for continued operation, subject to routine monitoring. The assessment is not a substitute for a
+detailed vibration analysis, mechanical seal inspection, alignment check, or manufacturer-specific acceptance
+criteria.
+6. Evidence and Notes
+Inspection evidence consists of the recorded operating parameters, observed leakage condition, vibration
+readings, bearing temperature, and inspection notes documented above. No destructive testing was performed.
+Measurements represent conditions at the time of inspection.
+Document note: This is a synthetic technical validation document created for testing a private/on-premise AI document-processing,
+RAG, verification, provenance, risk, approval, and controlled-deliverable workflow. It is not an actual field report.

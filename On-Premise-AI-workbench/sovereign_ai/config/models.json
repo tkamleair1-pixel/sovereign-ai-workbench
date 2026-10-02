@@ -1,0 +1,41 @@
+{
+    "models": {
+        "reasoning": {
+            "name": "qwen3:4b",
+            "capabilities": [
+                "reasoning",
+                "text",
+                "analysis",
+                "summarization"
+            ]
+        },
+        "vision": {
+            "name": "qwen3-vl:2b",
+            "capabilities": [
+                "vision",
+                "ocr",
+                "document_understanding",
+                "image_analysis"
+            ]
+        },
+        "coding": {
+            "name": "qwen2.5-coder:3b",
+            "capabilities": [
+                "coding",
+                "code_generation",
+                "code_review",
+                "code_debugging",
+                "code_reasoning"
+            ]
+        },
+        "confidential_airgap": {
+            "name": "qwen3:4b",
+            "capabilities": [
+                "confidential",
+                "airgap",
+                "secure_reasoning",
+                "compliance"
+            ]
+        }
+    }
+}

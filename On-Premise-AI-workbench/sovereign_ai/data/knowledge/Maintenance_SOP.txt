@@ -1,0 +1,14 @@
+MAINTENANCE SOP
+
+Section 4.2 — Rotating Equipment
+
+If abnormal vibration is observed in rotating equipment,
+the equipment must undergo inspection before continued
+operation where the vibration exceeds the defined operating
+threshold.
+
+Bearing temperature should also be checked against the
+equipment operating specification.
+
+Corrective maintenance should be documented and approved
+before execution where required by operational policy.
